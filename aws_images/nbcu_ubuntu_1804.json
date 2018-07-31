@@ -1,0 +1,30 @@
+{
+    "variables": {
+      "aws_access_key": "",
+      "aws_secret_key": ""
+    },
+    "builders": [{
+      "type": "amazon-ebs",
+      "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+      "secret_key": "{{env `AWS_SECRET_KEY`}}",
+      "region": "env `AWS_REGION`",
+      "source_ami_filter": {
+        "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu-bionic-18.04-amd64-server-*",
+        "root-device-type": "ebs"
+        },
+        "owners": ["801119661308"],
+        "most_recent": true
+      },
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "nbcu_ubuntu_{{timestamp}}"
+    }],
+    "provisioners": [
+        {
+          "type": "shell",
+          "script": "./scripts/download_node.sh"
+        }
+      ]
+  }

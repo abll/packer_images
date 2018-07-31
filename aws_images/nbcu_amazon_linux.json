@@ -1,0 +1,31 @@
+{
+    "variables": {
+      "aws_access_key": "",
+      "aws_secret_key": ""
+    },
+    "builders": [{
+      "type": "amazon-ebs",
+      "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+      "secret_key": "{{env `AWS_SECRET_KEY`}}",
+      "region": "env `AWS_REGION`",
+      "source_ami_filter": {
+        "filters": {
+        "virtualization-type": "hvm",
+        "name": "amzn-ami*-ebs" ,
+        "root-device-type": "ebs"
+        },
+        "owners": ["137112412989", "591542846629", "801119661308", "102837901569", "013907871322", "206029621532", "286198878708", "443319210888"],
+        "most_recent": true
+      },
+      "instance_type": "t2.micro",
+      "ssh_username": "ec2-user",
+      "ami_name": "nbcu-amazon-linux_{{timestamp}}",
+      "ami_description":  "Amazon Linux Image Created By Packer For NBCU"
+    }],
+    "provisioners": [
+      {
+        "type": "shell",
+        "script": "./scripts/download_node.sh"
+      }
+    ]
+  }
